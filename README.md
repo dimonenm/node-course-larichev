@@ -1,1 +1,1 @@
-# node-larichev
+# node-course-larichev
