@@ -1,35 +1,13 @@
-const factorial = require('./factorial')
+const { exec } = require('child_process')
 
-const compute = (array) => {
-  const arr = []
-  for (let i = 0; i < 100000000; i++) {
-    arr.push(i * i)
+const childProcess = exec('dir', (err, stdout, stderr) => {
+  if (err) {
+    console.error(err.message)
   }
-  return array.map(item => factorial(item))
-}
+  console.log(`stdout: ${stdout}`);
+  console.log(`stderr: ${stderr}`);
+})
 
-const main = () => {
-  performance.mark('start')
-
-  let timerCount = 1
-  const timer = setInterval(() => {
-    console.log(`${timerCount}c`)
-    timerCount++
-  }, 1000)
-
-  const res = [
-    compute([24, 48, 87, 54, 66]),
-    compute([24, 48, 87, 54, 66]),
-    compute([24, 48, 87, 54, 66]),
-    compute([24, 48, 87, 54, 66])
-  ]
-
-  // console.log('res: ', res);
-  clearInterval(timer)
-
-  performance.mark('end')
-  performance.measure('main', 'start', 'end')
-  console.log(performance.getEntriesByName('main').pop().duration);
-}
-
-main()
+childProcess.on('close', (code) => {
+  console.log(`Exit code ${code}`);
+})
