@@ -19,8 +19,10 @@ const saveToken = async (token) => {
   }
 }
 
-const initCLI = () => {
+const initCLI = async () => {
   const args = getArgs(process.argv)
+  console.log('process.env ', process.env);
+  // console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
   if (args.h) {
     printHelp()
@@ -30,7 +32,9 @@ const initCLI = () => {
   }
 
   // getWeather('simferopol')
-  getWeather2('simferopol')
+  // console.log(await getWeather2('simferopol'));
+
+  // getWeather2('simferopol')
 }
 
 initCLI()
