@@ -13,6 +13,7 @@ const TOKEN_DICTIONARY = {
 const saveKeyValue = async (key, value) => {
   let data = {}
 
+  console.log('filePath: ', filePath);
   if (await isExist(filePath)) {
     const file = await promises.readFile(filePath)
     data = JSON.parse(file)

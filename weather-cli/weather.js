@@ -19,10 +19,24 @@ const saveToken = async (token) => {
   }
 }
 
-const initCLI = async () => {
+const getForcast = async () => {
+  try {
+    const weather = await getWeather2('simferopol')
+    console.log(weather);
+  } catch (error) {
+    if (error?.response?.status === 404) {
+      printError('Не верно указан город')
+    } else if (error?.response?.status === 401) {
+      printError('Не верно указан токен')
+    } else {
+      printError(error.message)
+    }
+  }
+}
+
+const initCLI = () => {
   const args = getArgs(process.argv)
-  console.log('process.env ', process.env);
-  // console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+  // console.log('process.env ', process.env);
 
   if (args.h) {
     printHelp()
@@ -30,11 +44,8 @@ const initCLI = async () => {
   if (args.t) {
     return saveToken(args.t)
   }
-
+  getForcast()
   // getWeather('simferopol')
-  // console.log(await getWeather2('simferopol'));
-
-  // getWeather2('simferopol')
 }
 
 initCLI()
