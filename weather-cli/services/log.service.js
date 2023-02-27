@@ -19,5 +19,12 @@ const printHelp = () => {
     `)
   );
 }
+const printWeather = (weather) => {
+  console.log(dedent(`
+    ${chalk.bgCyan('Погода в городе:' + weather.name)}
+    Температура - ${weather.main.temp}C
+    Облачность - ${weather.weather[0].icon} ${weather.weather[0].description}
+    Скорость ветра - ${weather.wind.speed}`));
+}
 
-export { printError, printSuccess, printHelp }
+export { printError, printSuccess, printHelp, printWeather }
