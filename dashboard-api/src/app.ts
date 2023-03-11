@@ -4,7 +4,7 @@ import { inject, injectable } from 'inversify'
 import { ExeptionFilter } from '../errors/exeption.filter'
 import { ILogger } from './logger/logger.interface'
 import { TYPES } from './types'
-import { UserController } from './users/user.contriller'
+import { UserController } from './users/users.contriller'
 import 'reflect-metadata'
 
 @injectable()
