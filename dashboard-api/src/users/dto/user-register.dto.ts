@@ -1,5 +1,5 @@
 export class UserRegisterDto {
 	email: string;
-	passeord: string;
+	password: string;
 	name: string;
 }
