@@ -23,10 +23,14 @@ export class UsersController extends BaseController implements IUserController {
       {
         path: '/login',
         method: 'post',
-        func: this.login,
-        middlewares: [new ValidateMiddleware(UserRegisterDto)]
+        func: this.login
       },
-      { path: '/register', method: 'post', func: this.register }
+      {
+        path: '/register',
+        method: 'post',
+        func: this.register,
+        middlewares: [new ValidateMiddleware(UserRegisterDto)]
+      }
     ]);
   }
 
@@ -39,7 +43,9 @@ export class UsersController extends BaseController implements IUserController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
+    console.log('register');
     const result = await this.userService.createUser(body);
+    console.log('result: ', result);
 
     if (!result) {
       return next(new HTTPError(422, 'Такой пользователь уже существует'));
