@@ -10,6 +10,7 @@ import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
+import { ValidateMiddleware } from '../../common/validate.middleware';
 
 @injectable()
 export class UsersController extends BaseController implements IUserController {
@@ -19,13 +20,17 @@ export class UsersController extends BaseController implements IUserController {
   ) {
     super(loggerService);
     this.binRoutes([
-      { path: '/login', method: 'post', func: this.login },
+      {
+        path: '/login',
+        method: 'post',
+        func: this.login,
+        middlewares: [new ValidateMiddleware(UserRegisterDto)]
+      },
       { path: '/register', method: 'post', func: this.register }
     ]);
   }
 
   login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
-    console.log(req.body);
     next(new HTTPError(401, 'ошибка авторизации', 'login'));
   }
 
