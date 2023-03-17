@@ -4,6 +4,7 @@ import { IConfigService } from '../config/config.service.interface';
 import { ExeptionFilter } from '../errors/exeption.filter';
 import { IExeptionFilter } from '../errors/exeption.filter.interface';
 import { App } from './app';
+import { PrismaService } from './database/prisma.service';
 import { ILogger } from './logger/logger.interface';
 import { LoggerService } from './logger/logger.service';
 import { TYPES } from './types';
@@ -22,6 +23,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter).inSingletonScope();
   bind<IUserController>(TYPES.UserController).to(UsersController).inSingletonScope();
   bind<IUserService>(TYPES.UserService).to(UsersService).inSingletonScope();
+  bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
   bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
   bind<App>(TYPES.Application).to(App);
 });
