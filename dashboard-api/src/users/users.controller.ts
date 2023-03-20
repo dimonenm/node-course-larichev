@@ -23,7 +23,8 @@ export class UsersController extends BaseController implements IUserController {
       {
         path: '/login',
         method: 'post',
-        func: this.login
+        func: this.login,
+        middlewares: [new ValidateMiddleware(UserLoginDto)]
       },
       {
         path: '/register',
@@ -34,8 +35,18 @@ export class UsersController extends BaseController implements IUserController {
     ]);
   }
 
-  login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
-    next(new HTTPError(401, 'ошибка авторизации', 'login'));
+  async login(
+    req: Request<{}, {}, UserLoginDto>,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const result = await this.userService.validateUser(req.body);
+
+    if (!result) {
+      return next(new HTTPError(401, 'ошибка авторизации', 'login'));
+    }
+
+    this.ok(res, {});
   }
 
   async register(
@@ -49,6 +60,6 @@ export class UsersController extends BaseController implements IUserController {
       return next(new HTTPError(422, 'Такой пользователь уже существует'));
     }
 
-    this.ok(res, result);
+    this.ok(res, { id: result.id, email: result.email });
   }
 }
